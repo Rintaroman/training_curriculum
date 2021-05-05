@@ -34,7 +34,14 @@ class CalendarsController < ApplicationController
       plan = plans.map do |plan|
         today_plans.push(plan.plan) if plan.date == @todays_date + x
       end
-      days = {month: (@todays_date + x).month, date: (@todays_date+x).day, plans: today_plans}
+
+      if @todays_date.wday + x < 7 
+        wday = @todays_date.wday + x 
+      else
+        wday = @todays_date.wday + x - 7
+      end
+
+      days = { month: (@todays_date + x).month, date: @todays_date.day + x, wday: wdays[wday], plans: today_plans}
       @week_days.push(days)
     end
 
